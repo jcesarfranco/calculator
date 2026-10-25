@@ -45,23 +45,13 @@ calculator/
 
 ## Como executar
 
-Você pode abrir o arquivo `index.html` diretamente no navegador ou iniciar um servidor local.
+Você pode acessar diretamente pelo link **https://jcesarfranco.github.io/calculator/** ou realizar o download e abrir o arquivo `index.html` diretamente no navegador local.
 
 ### Opção 1: abrir diretamente
-- Abra o arquivo `index.html` em qualquer navegador moderno.
+- Acessar diretamente a URL **https://jcesarfranco.github.io/calculator/**.
 
 ### Opção 2: usar um servidor local
-No terminal, execute:
-
-```bash
-python3 -m http.server 8000
-```
-
-Depois acesse:
-
-```bash
-http://localhost:8000
-```
+- Realizar o download dos arquivos e abrir o arquivo `index.html` em qualquer navegador moderno.
 
 ## Captura de tela
 
