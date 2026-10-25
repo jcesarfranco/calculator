@@ -37,6 +37,11 @@ function addHistoryEntry(expression, result) {
   renderHistory();
 }
 
+function clearHistory() {
+  history = [];
+  renderHistory();
+}
+
 function clearCalculator() {
   currentInput = '0';
   firstValue = null;
@@ -173,8 +178,8 @@ buttons.forEach((button) => {
       return;
     }
 
-    if (action === 'percent') {
-      performPercent();
+    if (action === 'clear-history') {
+      clearHistory();
       return;
     }
 

@@ -8,6 +8,7 @@
   --muted: #9ca3af;
   --operator: #f59e0b;
   --utility: #374151;
+  --danger: #ef4444;
   --shadow: rgba(0, 0, 0, 0.25);
 }
 
@@ -58,8 +59,16 @@ body {
   margin-bottom: 16px;
 }
 
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
 .history-panel h3 {
-  margin: 0 0 8px;
+  margin: 0;
   font-size: 0.9rem;
   color: var(--muted);
   text-transform: uppercase;
@@ -119,6 +128,15 @@ body {
 
 .btn-utility {
   background: var(--utility);
+}
+
+.btn-history-clear {
+  background: var(--danger);
+  color: white;
+  min-height: 32px;
+  font-size: 0.8rem;
+  padding: 0 10px;
+  border-radius: 8px;
 }
 
 .btn-equals {
