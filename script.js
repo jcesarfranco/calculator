@@ -1,20 +1,40 @@
 const display = document.getElementById('display');
+const expressionDisplay = document.getElementById('expression');
 const historyList = document.getElementById('historyList');
+const body = document.body;
+
+const STORAGE_KEY = 'calculator-history';
+const THEME_KEY = 'calculator-theme';
 
 let currentInput = '0';
 let firstValue = null;
 let operator = null;
 let waitingForSecondValue = false;
-let history = [];
+let history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+
+function saveHistory() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+}
+
+function setTheme(theme) {
+  body.setAttribute('data-theme', theme);
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+function applySavedTheme() {
+  const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+  setTheme(savedTheme);
+}
 
 function updateDisplay() {
   if (operator && firstValue !== null) {
     if (waitingForSecondValue) {
-      display.textContent = `${firstValue} ${operator}`;
+      expressionDisplay.textContent = `${firstValue} ${operator}`;
     } else {
-      display.textContent = `${firstValue} ${operator} ${currentInput}`;
+      expressionDisplay.textContent = `${firstValue} ${operator} ${currentInput}`;
     }
-    return;
+  } else {
+    expressionDisplay.textContent = currentInput;
   }
 
   display.textContent = currentInput;
@@ -34,11 +54,13 @@ function addHistoryEntry(expression, result) {
   const entry = `${expression} = ${result}`;
   history.unshift(entry);
   history = history.slice(0, 8);
+  saveHistory();
   renderHistory();
 }
 
 function clearHistory() {
   history = [];
+  saveHistory();
   renderHistory();
 }
 
@@ -152,6 +174,11 @@ function evaluate() {
   updateDisplay();
 }
 
+function toggleTheme() {
+  const currentTheme = body.getAttribute('data-theme') || 'dark';
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+
 const buttons = document.querySelectorAll('.btn');
 
 buttons.forEach((button) => {
@@ -180,6 +207,11 @@ buttons.forEach((button) => {
 
     if (action === 'clear-history') {
       clearHistory();
+      return;
+    }
+
+    if (action === 'theme') {
+      toggleTheme();
       return;
     }
 
@@ -212,5 +244,6 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+applySavedTheme();
 renderHistory();
 updateDisplay();

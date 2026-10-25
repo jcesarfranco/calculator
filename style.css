@@ -2,14 +2,30 @@
   --bg-dark: #121826;
   --panel-dark: #1f2937;
   --panel-light: #2b3647;
-  --accent: #7c3aed;
-  --accent-2: #22c55e;
   --text: #e5e7eb;
   --muted: #9ca3af;
   --operator: #f59e0b;
   --utility: #374151;
   --danger: #ef4444;
+  --green: #22c55e;
+  --display-bg: #0f172a;
   --shadow: rgba(0, 0, 0, 0.25);
+  --button-text: #111827;
+}
+
+body[data-theme='light'] {
+  --bg-dark: #e5e7eb;
+  --panel-dark: #f8fafc;
+  --panel-light: #dfe7f2;
+  --text: #111827;
+  --muted: #475569;
+  --operator: #fbbf24;
+  --utility: #cbd5e1;
+  --danger: #ef4444;
+  --green: #4ade80;
+  --display-bg: #f8fafc;
+  --shadow: rgba(15, 23, 42, 0.12);
+  --button-text: #0f172a;
 }
 
 * {
@@ -24,6 +40,7 @@ body {
   background: radial-gradient(circle at top, #1f2937, var(--bg-dark));
   font-family: Arial, Helvetica, sans-serif;
   color: var(--text);
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .calculator {
@@ -35,21 +52,36 @@ body {
   padding: 20px;
 }
 
-.display {
-  min-height: 80px;
+.display-panel {
+  min-height: 92px;
   margin-bottom: 16px;
-  padding: 18px 16px;
+  padding: 14px 16px 12px;
   border-radius: 12px;
-  background: #0f172a;
-  color: var(--text);
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  background: var(--display-bg);
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.expression {
+  color: var(--muted);
+  font-size: 0.95rem;
+  min-height: 1.2em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+}
+
+.result {
+  color: var(--text);
+  font-size: clamp(2.1rem, 5vw, 2.9rem);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .history-panel {
@@ -65,6 +97,11 @@ body {
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 8px;
+}
+
+.history-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .history-panel h3 {
@@ -110,7 +147,7 @@ body {
   background: var(--panel-light);
   color: var(--text);
   cursor: pointer;
-  transition: transform 0.15s ease, filter 0.15s ease;
+  transition: transform 0.15s ease, filter 0.15s ease, background 0.2s ease;
 }
 
 .btn:hover {
@@ -123,25 +160,34 @@ body {
 
 .btn-operator {
   background: var(--operator);
-  color: #111827;
+  color: var(--button-text);
 }
 
 .btn-utility {
   background: var(--utility);
 }
 
-.btn-history-clear {
-  background: var(--danger);
-  color: white;
+.btn-history-clear,
+.btn-history-toggle {
   min-height: 32px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   padding: 0 10px;
   border-radius: 8px;
 }
 
+.btn-history-clear {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-history-toggle {
+  background: var(--green);
+  color: var(--button-text);
+}
+
 .btn-equals {
-  background: var(--accent-2);
-  color: #0b1120;
+  background: var(--green);
+  color: var(--button-text);
 }
 
 .btn-zero {

@@ -6,16 +6,20 @@
     <title>Calculator</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body data-theme="dark">
     <div class="calculator">
-      <div class="display" id="display" aria-live="polite">0</div>
+      <div class="display-panel">
+        <div class="expression" id="expression">0</div>
+        <div class="result" id="display" aria-live="polite">0</div>
+      </div>
 
       <div class="history-panel">
         <div class="history-header">
           <h3>History</h3>
-          <button class="btn btn-history-clear" data-action="clear-history" type="button">
-            Clear
-          </button>
+          <div class="history-actions">
+            <button class="btn btn-history-toggle" data-action="theme" type="button">Theme</button>
+            <button class="btn btn-history-clear" data-action="clear-history" type="button">Clear</button>
+          </div>
         </div>
         <ul id="historyList" class="history-list"></ul>
       </div>
@@ -23,7 +27,7 @@
       <div class="buttons">
         <button class="btn btn-utility" data-action="clear">C</button>
         <button class="btn btn-utility" data-action="delete">DEL</button>
-        <button class="btn btn-utility" data-action="clear-history">H</button>
+        <button class="btn btn-utility" data-action="theme">☼</button>
         <button class="btn btn-operator" data-action="operator" data-value="/">÷</button>
 
         <button class="btn" data-action="number" data-value="7">7</button>
