@@ -11,6 +11,7 @@
   --display-bg: #0f172a;
   --shadow: rgba(0, 0, 0, 0.25);
   --button-text: #111827;
+  --scientific: #3b82f6;
 }
 
 body[data-theme='light'] {
@@ -26,6 +27,7 @@ body[data-theme='light'] {
   --display-bg: #f8fafc;
   --shadow: rgba(15, 23, 42, 0.12);
   --button-text: #0f172a;
+  --scientific: #60a5fa;
 }
 
 * {
@@ -44,19 +46,19 @@ body {
 }
 
 .calculator {
-  width: min(90vw, 360px);
+  width: min(92vw, 420px);
   background: rgba(31, 41, 55, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px var(--shadow);
+  border-radius: 24px;
+  box-shadow: 0 22px 40px var(--shadow);
   padding: 20px;
 }
 
 .display-panel {
-  min-height: 92px;
+  min-height: 98px;
   margin-bottom: 16px;
   padding: 14px 16px 12px;
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--display-bg);
   text-align: right;
   display: flex;
@@ -133,16 +135,16 @@ body {
 
 .buttons {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .btn {
   appearance: none;
   border: none;
   border-radius: 12px;
-  min-height: 64px;
-  font-size: 1.35rem;
+  min-height: 58px;
+  font-size: 1.15rem;
   font-weight: 700;
   background: var(--panel-light);
   color: var(--text);
@@ -165,6 +167,11 @@ body {
 
 .btn-utility {
   background: var(--utility);
+}
+
+.btn-scientific {
+  background: var(--scientific);
+  color: white;
 }
 
 .btn-history-clear,
@@ -192,4 +199,15 @@ body {
 
 .btn-zero {
   grid-column: span 2;
+}
+
+@media (max-width: 420px) {
+  .calculator {
+    padding: 16px;
+  }
+
+  .btn {
+    min-height: 52px;
+    font-size: 1rem;
+  }
 }

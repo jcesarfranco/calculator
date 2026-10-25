@@ -26,6 +26,10 @@ function applySavedTheme() {
   setTheme(savedTheme);
 }
 
+function isErrorValue(value) {
+  return value === 'Error' || value === 'NaN';
+}
+
 function updateDisplay() {
   if (operator && firstValue !== null) {
     if (waitingForSecondValue) {
@@ -33,6 +37,8 @@ function updateDisplay() {
     } else {
       expressionDisplay.textContent = `${firstValue} ${operator} ${currentInput}`;
     }
+  } else if (currentInput === 'Error') {
+    expressionDisplay.textContent = 'Error';
   } else {
     expressionDisplay.textContent = currentInput;
   }
@@ -73,6 +79,12 @@ function clearCalculator() {
 }
 
 function inputNumber(value) {
+  if (isErrorValue(currentInput)) {
+    currentInput = value;
+    updateDisplay();
+    return;
+  }
+
   if (waitingForSecondValue) {
     currentInput = value;
     waitingForSecondValue = false;
@@ -84,6 +96,12 @@ function inputNumber(value) {
 }
 
 function inputDecimal() {
+  if (isErrorValue(currentInput)) {
+    currentInput = '0.';
+    updateDisplay();
+    return;
+  }
+
   if (waitingForSecondValue) {
     currentInput = '0.';
     waitingForSecondValue = false;
@@ -98,9 +116,40 @@ function inputDecimal() {
 }
 
 function deleteLast() {
-  if (waitingForSecondValue) return;
+  if (waitingForSecondValue || isErrorValue(currentInput)) return;
 
   currentInput = currentInput.length > 1 ? currentInput.slice(0, -1) : '0';
+  updateDisplay();
+}
+
+function applyUnaryOperation(operation) {
+  const value = Number(currentInput);
+  let result;
+
+  if (Number.isNaN(value)) {
+    currentInput = 'Error';
+    updateDisplay();
+    return;
+  }
+
+  switch (operation) {
+    case 'sqrt':
+      result = value < 0 ? 'Error' : Math.sqrt(value);
+      break;
+    case 'square':
+      result = value * value;
+      break;
+    case 'reciprocal':
+      result = value === 0 ? 'Error' : 1 / value;
+      break;
+    case 'toggle-sign':
+      result = -value;
+      break;
+    default:
+      result = value;
+  }
+
+  currentInput = String(result);
   updateDisplay();
 }
 
@@ -112,6 +161,10 @@ function performPercent() {
 
 function chooseOperator(nextOperator) {
   const inputValue = Number(currentInput);
+
+  if (isErrorValue(currentInput)) {
+    return;
+  }
 
   if (firstValue === null) {
     firstValue = inputValue;
@@ -146,13 +199,15 @@ function calculate(first, second, op) {
       return first * second;
     case '/':
       return second === 0 ? 'Error' : first / second;
+    case '^':
+      return first ** second;
     default:
       return second;
   }
 }
 
 function evaluate() {
-  if (operator === null || waitingForSecondValue) return;
+  if (operator === null || waitingForSecondValue || isErrorValue(currentInput)) return;
 
   const expression = `${firstValue} ${operator} ${currentInput}`;
   const result = calculate(firstValue, Number(currentInput), operator);
@@ -205,6 +260,31 @@ buttons.forEach((button) => {
       return;
     }
 
+    if (action === 'toggle-sign') {
+      applyUnaryOperation('toggle-sign');
+      return;
+    }
+
+    if (action === 'percent') {
+      performPercent();
+      return;
+    }
+
+    if (action === 'sqrt') {
+      applyUnaryOperation('sqrt');
+      return;
+    }
+
+    if (action === 'square') {
+      applyUnaryOperation('square');
+      return;
+    }
+
+    if (action === 'reciprocal') {
+      applyUnaryOperation('reciprocal');
+      return;
+    }
+
     if (action === 'clear-history') {
       clearHistory();
       return;
@@ -237,7 +317,9 @@ document.addEventListener('keydown', (event) => {
     clearCalculator();
   } else if (key === 'Backspace') {
     deleteLast();
-  } else if (['+', '-', '*', '/'].includes(key)) {
+  } else if (key === 'p' || key === 'P') {
+    applyUnaryOperation('toggle-sign');
+  } else if (['+', '-', '*', '/', '^'].includes(key)) {
     chooseOperator(key);
   } else if (key === 'Enter' || key === '=') {
     evaluate();
