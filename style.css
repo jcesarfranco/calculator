@@ -46,7 +46,7 @@ body {
 }
 
 .calculator {
-  width: min(92vw, 420px);
+  width: min(92vw, 440px);
   background: rgba(31, 41, 55, 0.9);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
@@ -144,7 +144,7 @@ body {
   border: none;
   border-radius: 12px;
   min-height: 58px;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
   background: var(--panel-light);
   color: var(--text);
@@ -208,6 +208,6 @@ body {
 
   .btn {
     min-height: 52px;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 }
