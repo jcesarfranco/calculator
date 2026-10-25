@@ -86,12 +86,20 @@ body {
   white-space: nowrap;
 }
 
+.toolbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
 .history-panel {
   background: rgba(15, 23, 42, 0.7);
   border-radius: 12px;
   padding: 10px 12px;
   margin-bottom: 16px;
-  transition: display 0.2s ease, opacity 0.2s ease, max-height 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 body[data-history='hidden'] .history-panel {
@@ -104,12 +112,6 @@ body[data-history='hidden'] .history-panel {
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 8px;
-}
-
-.history-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
 }
 
 .history-panel h3 {
@@ -212,7 +214,7 @@ body[data-mode='simple'] .btn-scientific {
 }
 
 body[data-mode='scientific'] .buttons {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 @media (max-width: 420px) {
