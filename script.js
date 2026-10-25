@@ -1,17 +1,45 @@
 const display = document.getElementById('display');
+const historyList = document.getElementById('historyList');
 
 let currentInput = '0';
-let previousInput = null;
+let firstValue = null;
 let operator = null;
 let waitingForSecondValue = false;
+let history = [];
 
 function updateDisplay() {
+  if (operator && firstValue !== null) {
+    if (waitingForSecondValue) {
+      display.textContent = `${firstValue} ${operator}`;
+    } else {
+      display.textContent = `${firstValue} ${operator} ${currentInput}`;
+    }
+    return;
+  }
+
   display.textContent = currentInput;
+}
+
+function renderHistory() {
+  historyList.innerHTML = '';
+
+  history.slice(0, 8).forEach((entry) => {
+    const item = document.createElement('li');
+    item.textContent = entry;
+    historyList.appendChild(item);
+  });
+}
+
+function addHistoryEntry(expression, result) {
+  const entry = `${expression} = ${result}`;
+  history.unshift(entry);
+  history = history.slice(0, 8);
+  renderHistory();
 }
 
 function clearCalculator() {
   currentInput = '0';
-  previousInput = null;
+  firstValue = null;
   operator = null;
   waitingForSecondValue = false;
   updateDisplay();
@@ -58,16 +86,27 @@ function performPercent() {
 function chooseOperator(nextOperator) {
   const inputValue = Number(currentInput);
 
-  if (previousInput === null) {
-    previousInput = inputValue;
+  if (firstValue === null) {
+    firstValue = inputValue;
   } else if (operator) {
-    const result = calculate(previousInput, inputValue, operator);
+    const result = calculate(firstValue, inputValue, operator);
+
+    if (result === 'Error') {
+      currentInput = 'Error';
+      firstValue = null;
+      operator = null;
+      waitingForSecondValue = false;
+      updateDisplay();
+      return;
+    }
+
     currentInput = String(result);
-    previousInput = result;
+    firstValue = result;
   }
 
-  waitingForSecondValue = true;
   operator = nextOperator;
+  waitingForSecondValue = true;
+  updateDisplay();
 }
 
 function calculate(first, second, op) {
@@ -88,9 +127,21 @@ function calculate(first, second, op) {
 function evaluate() {
   if (operator === null || waitingForSecondValue) return;
 
-  const result = calculate(previousInput, Number(currentInput), operator);
+  const expression = `${firstValue} ${operator} ${currentInput}`;
+  const result = calculate(firstValue, Number(currentInput), operator);
+
+  if (result === 'Error') {
+    currentInput = 'Error';
+    firstValue = null;
+    operator = null;
+    waitingForSecondValue = false;
+    updateDisplay();
+    return;
+  }
+
   currentInput = String(result);
-  previousInput = null;
+  addHistoryEntry(expression, currentInput);
+  firstValue = null;
   operator = null;
   waitingForSecondValue = false;
   updateDisplay();
@@ -156,4 +207,5 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+renderHistory();
 updateDisplay();
