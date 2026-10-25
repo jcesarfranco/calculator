@@ -1,4 +1,4 @@
- :root {
+:root {
   --bg-dark: #121826;
   --panel-dark: #1f2937;
   --panel-light: #2b3647;
@@ -91,6 +91,11 @@ body {
   border-radius: 12px;
   padding: 10px 12px;
   margin-bottom: 16px;
+  transition: display 0.2s ease, opacity 0.2s ease, max-height 0.2s ease;
+}
+
+body[data-history='hidden'] .history-panel {
+  display: none;
 }
 
 .history-header {

@@ -6,19 +6,20 @@
     <title>Calculator</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body data-theme="dark" data-mode="simple">
+  <body data-theme="dark" data-mode="simple" data-history="visible">
     <div class="calculator">
       <div class="display-panel">
         <div class="expression" id="expression">0</div>
         <div class="result" id="display" aria-live="polite">0</div>
       </div>
 
-      <div class="history-panel">
+      <div class="history-panel" id="historyPanel">
         <div class="history-header">
           <h3>History</h3>
           <div class="history-actions">
             <button class="btn btn-history-toggle" data-action="mode-toggle" type="button">Scientific</button>
             <button class="btn btn-history-toggle" data-action="theme" type="button">Theme</button>
+            <button class="btn btn-history-toggle" data-action="history-toggle" type="button">Hide History</button>
             <button class="btn btn-history-clear" data-action="clear-history" type="button">Clear</button>
           </div>
         </div>

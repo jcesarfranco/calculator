@@ -6,6 +6,7 @@ const body = document.body;
 const STORAGE_KEY = 'calculator-history';
 const THEME_KEY = 'calculator-theme';
 const MODE_KEY = 'calculator-mode';
+const HISTORY_VISIBLE_KEY = 'calculator-history-visible';
 const MEMORY_KEY = 'calculator-memory';
 
 let currentInput = '0';
@@ -38,6 +39,16 @@ function setMode(mode) {
   }
 }
 
+function setHistoryVisible(visible) {
+  body.setAttribute('data-history', visible ? 'visible' : 'hidden');
+  localStorage.setItem(HISTORY_VISIBLE_KEY, visible ? 'visible' : 'hidden');
+
+  const toggleButton = document.querySelector('[data-action="history-toggle"]');
+  if (toggleButton) {
+    toggleButton.textContent = visible ? 'Hide History' : 'Show History';
+  }
+}
+
 function applySavedTheme() {
   const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
   setTheme(savedTheme);
@@ -46,6 +57,11 @@ function applySavedTheme() {
 function applySavedMode() {
   const savedMode = localStorage.getItem(MODE_KEY) || 'simple';
   setMode(savedMode);
+}
+
+function applySavedHistoryVisibility() {
+  const savedValue = localStorage.getItem(HISTORY_VISIBLE_KEY) || 'visible';
+  setHistoryVisible(savedValue === 'visible');
 }
 
 function isErrorValue(value) {
@@ -329,6 +345,11 @@ function toggleMode() {
   setMode(currentMode === 'simple' ? 'scientific' : 'simple');
 }
 
+function toggleHistory() {
+  const current = body.getAttribute('data-history') || 'visible';
+  setHistoryVisible(current === 'visible' ? false : true);
+}
+
 const buttons = document.querySelectorAll('.btn');
 
 buttons.forEach((button) => {
@@ -435,6 +456,11 @@ buttons.forEach((button) => {
       return;
     }
 
+    if (action === 'history-toggle') {
+      toggleHistory();
+      return;
+    }
+
     if (action === 'operator') {
       chooseOperator(value);
       return;
@@ -468,5 +494,6 @@ document.addEventListener('keydown', (event) => {
 
 applySavedTheme();
 applySavedMode();
+applySavedHistoryVisibility();
 renderHistory();
 updateDisplay();
