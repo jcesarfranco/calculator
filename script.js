@@ -156,6 +156,11 @@ function toggleSign() {
   updateDisplay();
 }
 
+function performPercent() {
+  currentInput = String(Number(currentInput) / 100);
+  updateDisplay();
+}
+
 function applyScientificOperation(operation) {
   const value = Number(currentInput);
   if (Number.isNaN(value)) {
@@ -191,14 +196,6 @@ function applyScientificOperation(operation) {
     case 'ln':
       result = value <= 0 ? 'Error' : Math.log(value);
       break;
-    case 'power':
-      if (firstValue === null) {
-        firstValue = Number(currentInput);
-      }
-      operator = '^';
-      waitingForSecondValue = true;
-      updateDisplay();
-      return;
     default:
       result = value;
   }
@@ -209,12 +206,6 @@ function applyScientificOperation(operation) {
 
 function insertConstant(kind) {
   currentInput = kind === 'pi' ? String(Math.PI) : String(Math.E);
-  updateDisplay();
-}
-
-function performPercent() {
-  const value = Number(currentInput) / 100;
-  currentInput = String(value);
   updateDisplay();
 }
 
@@ -415,7 +406,7 @@ buttons.forEach((button) => {
     }
 
     if (action === 'power') {
-      applyScientificOperation('power');
+      chooseOperator('^');
       return;
     }
 

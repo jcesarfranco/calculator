@@ -1,4 +1,4 @@
-:root {
+ :root {
   --bg-dark: #121826;
   --panel-dark: #1f2937;
   --panel-light: #2b3647;
@@ -136,7 +136,7 @@ body {
 
 .buttons {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -206,14 +206,8 @@ body[data-mode='simple'] .btn-scientific {
   display: none;
 }
 
-body[data-mode='simple'] .buttons {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-body[data-mode='scientific'] .btn-scientific {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+body[data-mode='scientific'] .buttons {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 @media (max-width: 420px) {
