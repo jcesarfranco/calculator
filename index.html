@@ -6,7 +6,7 @@
     <title>Calculator</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body data-theme="dark">
+  <body data-theme="dark" data-mode="simple">
     <div class="calculator">
       <div class="display-panel">
         <div class="expression" id="expression">0</div>
@@ -17,6 +17,7 @@
         <div class="history-header">
           <h3>History</h3>
           <div class="history-actions">
+            <button class="btn btn-history-toggle" data-action="mode-toggle" type="button">Scientific</button>
             <button class="btn btn-history-toggle" data-action="theme" type="button">Theme</button>
             <button class="btn btn-history-clear" data-action="clear-history" type="button">Clear</button>
           </div>
@@ -53,6 +54,24 @@
         <button class="btn btn-scientific" data-action="memory" data-value="M-">M-</button>
         <button class="btn btn-scientific" data-action="memory" data-value="MR">MR</button>
         <button class="btn btn-scientific" data-action="memory" data-value="MS">MS</button>
+        <button class="btn btn-equals" data-action="equals">=</button>
+
+        <button class="btn" data-action="number" data-value="7">7</button>
+        <button class="btn" data-action="number" data-value="8">8</button>
+        <button class="btn" data-action="number" data-value="9">9</button>
+        <button class="btn btn-utility" data-action="theme">☼</button>
+        <button class="btn btn-operator" data-action="operator" data-value="*">×</button>
+
+        <button class="btn" data-action="number" data-value="4">4</button>
+        <button class="btn" data-action="number" data-value="5">5</button>
+        <button class="btn" data-action="number" data-value="6">6</button>
+        <button class="btn" data-action="decimal">.</button>
+        <button class="btn btn-operator" data-action="operator" data-value="-">−</button>
+
+        <button class="btn" data-action="number" data-value="1">1</button>
+        <button class="btn" data-action="number" data-value="2">2</button>
+        <button class="btn" data-action="number" data-value="3">3</button>
+        <button class="btn btn-zero" data-action="number" data-value="0">0</button>
         <button class="btn btn-equals" data-action="equals">=</button>
       </div>
     </div>

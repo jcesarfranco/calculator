@@ -104,6 +104,7 @@ body {
 .history-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .history-panel h3 {
@@ -199,6 +200,20 @@ body {
 
 .btn-zero {
   grid-column: span 2;
+}
+
+body[data-mode='simple'] .btn-scientific {
+  display: none;
+}
+
+body[data-mode='simple'] .buttons {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+body[data-mode='scientific'] .btn-scientific {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 420px) {

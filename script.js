@@ -5,6 +5,7 @@ const body = document.body;
 
 const STORAGE_KEY = 'calculator-history';
 const THEME_KEY = 'calculator-theme';
+const MODE_KEY = 'calculator-mode';
 const MEMORY_KEY = 'calculator-memory';
 
 let currentInput = '0';
@@ -27,9 +28,24 @@ function setTheme(theme) {
   localStorage.setItem(THEME_KEY, theme);
 }
 
+function setMode(mode) {
+  body.setAttribute('data-mode', mode);
+  localStorage.setItem(MODE_KEY, mode);
+
+  const toggleButton = document.querySelector('[data-action="mode-toggle"]');
+  if (toggleButton) {
+    toggleButton.textContent = mode === 'simple' ? 'Scientific' : 'Simple';
+  }
+}
+
 function applySavedTheme() {
   const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
   setTheme(savedTheme);
+}
+
+function applySavedMode() {
+  const savedMode = localStorage.getItem(MODE_KEY) || 'simple';
+  setMode(savedMode);
 }
 
 function isErrorValue(value) {
@@ -183,10 +199,6 @@ function applyScientificOperation(operation) {
       waitingForSecondValue = true;
       updateDisplay();
       return;
-    case 'constant':
-      currentInput = value.toString();
-      updateDisplay();
-      return;
     default:
       result = value;
   }
@@ -321,6 +333,11 @@ function toggleTheme() {
   setTheme(currentTheme === 'dark' ? 'light' : 'dark');
 }
 
+function toggleMode() {
+  const currentMode = body.getAttribute('data-mode') || 'simple';
+  setMode(currentMode === 'simple' ? 'scientific' : 'simple');
+}
+
 const buttons = document.querySelectorAll('.btn');
 
 buttons.forEach((button) => {
@@ -422,6 +439,11 @@ buttons.forEach((button) => {
       return;
     }
 
+    if (action === 'mode-toggle') {
+      toggleMode();
+      return;
+    }
+
     if (action === 'operator') {
       chooseOperator(value);
       return;
@@ -454,5 +476,6 @@ document.addEventListener('keydown', (event) => {
 });
 
 applySavedTheme();
+applySavedMode();
 renderHistory();
 updateDisplay();
